@@ -1,0 +1,25 @@
+<body>
+<h1>Welcome to the Steam Link helper app</h1>
+<p>Currently the status of the pc is <span id="pcstatus">unknown</span></p>
+<p>Who's going to play?</p>
+<div>$buttons</div>
+<h2>Message log</h2>
+<div id="log"></div>
+<script>
+const socket = new WebSocket($url);
+socket.addEventListener('message', (msg) => {
+    const obj = JSON.parse(msg.data);
+    switch(obj.type) {
+        case 'status':
+        document.getElementById('pcstatus').textContent = obj.payload;
+        break;
+        case 'msg':
+        const timeStamp = new Date().toLocaleTimeString();
+        const newline = document.createElement('p');
+        newline.textContent = msg.payload;
+        document.getElementById('log').appendChild(newline);
+        break;
+    }
+});
+</script>
+</body>

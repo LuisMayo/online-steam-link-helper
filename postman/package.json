@@ -1,0 +1,28 @@
+{
+  "name": "steam-link-helper-postman",
+  "version": "1.0.0",
+  "description": "Postman Postman backend, a backend for the postman designed to run on the insider",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./back/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisMayo/online-steam-link-helper.git"
+  },
+  "author": "Luis Mayo",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/LuisMayo/online-steam-link-helper/issues"
+  },
+  "homepage": "https://github.com/LuisMayo/online-steam-link-helper#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
