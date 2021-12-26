@@ -21,5 +21,9 @@ socket.addEventListener('message', (msg) => {
         break;
     }
 });
+
+function buttonClick(ev) {
+    socket.send(ev.target.textContent);
+}
 </script>
 </body>

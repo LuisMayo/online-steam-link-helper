@@ -1,0 +1,8 @@
+{
+    "websocketURL": "wss://example.com",
+    "accounts": [{
+      "user": "luis",
+      "password": "pass",
+      "steamGuard": false
+    }]
+}
