@@ -1,6 +1,8 @@
 export interface Config {
     websocketURL: string;
-    accounts:     Account[];
+    remoteURL: string;
+    remoteMAC: string;
+    accounts: Account[];
 }
 
 export interface Account {
