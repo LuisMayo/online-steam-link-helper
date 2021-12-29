@@ -112,7 +112,7 @@ server.on('connection', (ws) => {
         if (obj.type === 'login') {
             if (state !== 'online') {
                 informFrontEndOfLog('Machine was asleep, sending a Wake On Lan');
-                // wol.wake(config.remoteMAC);
+                wol.wake(config.remoteMAC);
                 setTimeout(() => loginRemoteMachine(obj.payload), 30000);
             } else {
                 loginRemoteMachine(obj.payload);
