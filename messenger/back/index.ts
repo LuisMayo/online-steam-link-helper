@@ -16,17 +16,26 @@ function keepConnectionToRemote() {
         client = new WebSocket(config.remoteURL);
         state = 'connecting';
         client.addEventListener('open', () => {
-            state = 'online'
+            state = 'online';
             informFrontEndOfStatus();
         });
         client.addEventListener('close', () => {
-            state = 'offline'
+            state = 'offline';
+            client = null;
             informFrontEndOfStatus();
         });
         client.addEventListener('error', () => {
             client = null;
             state = 'offline';
             informFrontEndOfStatus();
+        });
+        client.addEventListener('message', ev => {
+            const obj = JSON.parse(ev.data as string);
+            if (obj.type === 'log') {
+                informFrontEndOfLog(obj.payload);
+            } else if (obj.type === 'guard') {
+                informFrontEndOfGuard();
+            }
         });
     } else {
         client.send('ping');
@@ -42,8 +51,23 @@ function informFrontEndOfStatus() {
     }
 }
 
+function informFrontEndOfLog(message: string) {
+    for (const front of server.clients) {
+        const obj = {type: 'log', payload: message}
+        front.send(JSON.stringify(obj));
+    }
+}
+
+function informFrontEndOfGuard() {
+    for (const front of server.clients) {
+        const obj = {type: 'guard'}
+        front.send(JSON.stringify(obj));
+    }
+}
+
 function loginRemoteMachine(user: string) {
     if (client && client.readyState === client.OPEN) {
+        informFrontEndOfLog('Connected to remote machine, sending it the login request');
         const account = config.accounts.find(account => account.user === user);
         const obj = {type: 'login', account};
         client.send(JSON.stringify(obj))
@@ -87,10 +111,17 @@ server.on('connection', (ws) => {
         console.log(obj);
         if (obj.type === 'login') {
             if (state !== 'online') {
-                wol.wake(config.remoteMAC);
+                informFrontEndOfLog('Machine was asleep, sending a Wake On Lan');
+                // wol.wake(config.remoteMAC);
                 setTimeout(() => loginRemoteMachine(obj.payload), 30000);
             } else {
                 loginRemoteMachine(obj.payload);
+            }
+        } else if (obj.type === 'guard') {
+            if (client != null) {
+                client.send(data);
+            } else {
+                informFrontEndOfLog('Guard could not be delivered');
             }
         }
     });

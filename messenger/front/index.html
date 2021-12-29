@@ -3,6 +3,9 @@
 <p>Currently the status of the pc is <span id="pcstatus">unknown</span></p>
 <p>Who's going to play?</p>
 <div>$buttons</div>
+<label for="guard">Steam guard code: </label>
+<input id="guard"/>
+<button onclick="steamGuardClick()">Send Steam guard</button>
 <h2>Message log</h2>
 <div id="log"></div>
 <script>
@@ -13,17 +16,24 @@ socket.addEventListener('message', (msg) => {
         case 'status':
         document.getElementById('pcstatus').textContent = obj.payload;
         break;
-        case 'msg':
+        case 'log':
         const timeStamp = new Date().toLocaleTimeString();
         const newline = document.createElement('p');
-        newline.textContent = msg.payload;
+        newline.textContent = obj.payload;
         document.getElementById('log').appendChild(newline);
+        break;
+        case 'guard':
         break;
     }
 });
 
 function buttonClick() {
     const msg = {type: 'login', payload: event.target.textContent};
+    socket.send(JSON.stringify(msg));
+}
+
+function steamGuardClick() {
+    const msg = {type: 'guard', payload: document.getElementById('guard').value};
     socket.send(JSON.stringify(msg));
 }
 </script>

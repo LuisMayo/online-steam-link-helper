@@ -76,3 +76,6 @@ typings/
 .fusebox/
 postman/config.json
 messenger/config.json
+agent/haystack.png
+.gitignore
+agent/needle.png
