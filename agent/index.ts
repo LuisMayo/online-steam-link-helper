@@ -83,7 +83,9 @@ server.on('connection', (ws) => {
                             await mouse.setPosition(new Point(region.left, region.top));
                             await mouse.leftClick();
                             sendSteamGuard(ws);
-                        }).catch(() => {});
+                        }).catch(() => {
+                            blindGuard(obj, ws);
+                        });
                     });
                 });
             });
@@ -94,6 +96,14 @@ server.on('connection', (ws) => {
         }
     });
 });
+async function blindGuard(obj: any, ws: WebSocket) {
+    if (obj.account.steamGuard) {
+        ws.send(getSendableLog('We can\'t find the steam guard prompt, but this account should have it\n Attempting blind click'));
+        await mouse.setPosition(new Point((await screen.width()) / 2 + 20, (await screen.height()) / 2 + 20));
+        await mouse.leftClick();
+    }
+}
+
 function sendSteamGuard(ws: WebSocket) {
     ws.send(getSendableLog('Steam guard requested'));
     const send = { type: 'guard' };
