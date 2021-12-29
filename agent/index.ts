@@ -7,7 +7,7 @@ require("@nut-tree/template-matcher");
 // We may be able to get the real location of steam.
 // On install, steam registers an URI handler for steamapp://, if we were to find where that URI handler points, we'd have the steam exe location.
 const steamPath = '"C:\\Program Files (x86)\\Steam\\steam.exe"';
-screen.config.resourceDirectory = ".";
+screen.config.resourceDirectory = "./patterns";
 
 function isSteamRunning() {
     return new Promise<boolean>(resolve => {
