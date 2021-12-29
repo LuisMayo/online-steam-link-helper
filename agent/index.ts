@@ -1,4 +1,4 @@
-import { WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import { exec } from 'child_process';
 import { Key, keyboard, mouse, Point, screen } from "@nut-tree/nut-js";
 import { imageResource } from '@nut-tree/nut-js';
@@ -94,7 +94,7 @@ server.on('connection', (ws) => {
         }
     });
 });
-function sendSteamGuard(ws) {
+function sendSteamGuard(ws: WebSocket) {
     ws.send(getSendableLog('Steam guard requested'));
     const send = { type: 'guard' };
     ws.send(JSON.stringify(send));
