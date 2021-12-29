@@ -67,7 +67,7 @@ server.on('connection', (ws) => {
                 exec(`${steamPath} -login ${obj.account.user} ${obj.account.password}`);
                 waitUntilSteamIsOn().then(() => {
                     ws.send(getSendableLog('Steam process launched'));
-                    screen.waitFor(imageResource("./steam.png"), 10000).then(async (region) => {
+                    screen.waitFor(imageResource("./steam.png"), 20000).then(async (region) => {
                         ws.send(getSendableLog('Steam app found on taskbar'));
                         await mouse.setPosition(new Point(0, 0));
                         await mouse.leftClick();
