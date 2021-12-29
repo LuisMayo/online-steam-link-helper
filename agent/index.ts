@@ -75,10 +75,15 @@ server.on('connection', (ws) => {
                         await mouse.leftClick();
                         try {
                             await screen.waitFor(imageResource("./guard.png"));
-                            ws.send(getSendableLog('Steam guard requested'));
-                            const send = {type: 'guard'};
-                            ws.send(JSON.stringify(send));
+                            sendSteamGuard(ws);
                         } catch (e) {}
+                    }).catch(() => {
+                        ws.send(getSendableLog('Steam app not found on taskbar, praying for the best'));
+                        screen.find(imageResource('./guard.png')).then(async region => {
+                            await mouse.setPosition(new Point(region.left, region.top));
+                            await mouse.leftClick();
+                            sendSteamGuard(ws);
+                        }).catch(() => {});
                     });
                 });
             });
@@ -89,3 +94,9 @@ server.on('connection', (ws) => {
         }
     });
 });
+function sendSteamGuard(ws) {
+    ws.send(getSendableLog('Steam guard requested'));
+    const send = { type: 'guard' };
+    ws.send(JSON.stringify(send));
+}
+
