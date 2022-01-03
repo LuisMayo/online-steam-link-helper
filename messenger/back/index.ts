@@ -20,14 +20,10 @@ function keepConnectionToRemote() {
             informFrontEndOfStatus();
         });
         client.addEventListener('close', () => {
-            state = 'offline';
-            client = null;
-            informFrontEndOfStatus();
+            treatClientAsClosed();
         });
         client.addEventListener('error', () => {
-            client = null;
-            state = 'offline';
-            informFrontEndOfStatus();
+            treatClientAsClosed();
         });
         client.addEventListener('message', ev => {
             const obj = JSON.parse(ev.data as string);
@@ -40,6 +36,12 @@ function keepConnectionToRemote() {
     } else {
         client.send('ping');
     }
+    informFrontEndOfStatus();
+}
+
+function treatClientAsClosed() {
+    state = 'offline';
+    client = null;
     informFrontEndOfStatus();
 }
 
@@ -122,6 +124,10 @@ wsServer.on('connection', (ws) => {
             } else {
                 informFrontEndOfLog('Guard could not be delivered');
             }
+        } else if (obj.type === 'dc') {
+            informFrontEndOfLog('Disconnecting from remote machine');
+            client.close();
+            treatClientAsClosed();
         }
     });
 });
