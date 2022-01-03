@@ -45,21 +45,21 @@ function keepConnectionToRemote() {
 
 // Inform the frontend of the status of the SteamLink app
 function informFrontEndOfStatus() {
-    for (const front of server.clients) {
+    for (const front of wsServer.clients) {
         const obj = {type: 'status', payload: state}
         front.send(JSON.stringify(obj));
     }
 }
 
 function informFrontEndOfLog(message: string) {
-    for (const front of server.clients) {
+    for (const front of wsServer.clients) {
         const obj = {type: 'log', payload: message}
         front.send(JSON.stringify(obj));
     }
 }
 
 function informFrontEndOfGuard() {
-    for (const front of server.clients) {
+    for (const front of wsServer.clients) {
         const obj = {type: 'guard'}
         front.send(JSON.stringify(obj));
     }
@@ -98,13 +98,13 @@ app.get('/', (req, res) => {
     });
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 });
 
 // Running ws server
-const server = new WebSocketServer({port: 15805, clientTracking: true});
-server.on('connection', (ws) => {
+const wsServer = new WebSocketServer({clientTracking: true, server });
+wsServer.on('connection', (ws) => {
     informFrontEndOfStatus();
     ws.on("message", (data: string) => {
         const obj = JSON.parse(data);
