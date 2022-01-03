@@ -73,6 +73,8 @@ function loginRemoteMachine(user: string) {
         const account = config.accounts.find(account => account.user === user);
         const obj = {type: 'login', account};
         client.send(JSON.stringify(obj))
+    } else {
+        informFrontEndOfLog('Couldn\'t connect to the machine on time. Try again when the status is online');
     }
 }
 
