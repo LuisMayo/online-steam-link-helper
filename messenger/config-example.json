@@ -1,5 +1,4 @@
 {
-    "websocketURL": "wss://example.com:15805",
     "remoteURL": "ws://test:44639",
     "remoteMAC": "FF:FF:FF:FF:FF:FF",
     "accounts": [{

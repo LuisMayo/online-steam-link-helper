@@ -9,7 +9,7 @@
 <h2>Message log</h2>
 <div id="log"></div>
 <script>
-const socket = new WebSocket('$url');
+const socket = new WebSocket('wss://' + location.host + '/ws/');
 socket.addEventListener('message', (msg) => {
     const obj = JSON.parse(msg.data);
     switch(obj.type) {

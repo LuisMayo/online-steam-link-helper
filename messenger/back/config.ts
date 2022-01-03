@@ -1,5 +1,4 @@
 export interface Config {
-    websocketURL: string;
     remoteURL: string;
     remoteMAC: string;
     accounts: Account[];

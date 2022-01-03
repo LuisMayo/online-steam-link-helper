@@ -93,7 +93,6 @@ app.get('/', (req, res) => {
             buttons += `<button onclick="buttonClick()">${user.user}</button>\n`;
         }
         let newHtml = data.replace('$buttons', buttons);
-        newHtml = newHtml.replace('$url', config.websocketURL);
         res.send(newHtml);
     });
 });
