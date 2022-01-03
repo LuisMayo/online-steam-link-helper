@@ -33,7 +33,7 @@ function keepConnectionToRemote() {
                 informFrontEndOfGuard();
             }
         });
-    } else {
+    } else if (client.readyState === client.OPEN) {
         client.send('ping');
     }
     informFrontEndOfStatus();
@@ -68,7 +68,7 @@ function informFrontEndOfGuard() {
 }
 
 function loginRemoteMachine(user: string) {
-    if (client && client.readyState === client.OPEN) {
+    if (client && client.readyState === client.OPEN ) {
         informFrontEndOfLog('Connected to remote machine, sending it the login request');
         const account = config.accounts.find(account => account.user === user);
         const obj = {type: 'login', account};
