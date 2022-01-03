@@ -126,7 +126,9 @@ wsServer.on('connection', (ws) => {
             }
         } else if (obj.type === 'dc') {
             informFrontEndOfLog('Disconnecting from remote machine');
-            client.close();
+            if (client != null) {
+                client.close();
+            }
             treatClientAsClosed();
         }
     });
