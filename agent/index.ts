@@ -2,6 +2,7 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { exec } from 'child_process';
 import { Key, keyboard, mouse, Point, screen } from "@nut-tree/nut-js";
 import { imageResource } from '@nut-tree/nut-js';
+import sleepMode from 'sleep-mode';
 require("@nut-tree/template-matcher");
 
 // We may be able to get the real location of steam.
@@ -90,6 +91,10 @@ server.on('connection', (ws) => {
                 });
             });
         } else if (obj.type === 'guard') {
+            await keyboard.type(obj.payload);
+            await keyboard.type(Key.Enter);
+            ws.send(getSendableLog('Steam guard code typed (may not be successfull)'));
+        }  else if (obj.type === 'guard') {
             await keyboard.type(obj.payload);
             await keyboard.type(Key.Enter);
             ws.send(getSendableLog('Steam guard code typed (may not be successfull)'));

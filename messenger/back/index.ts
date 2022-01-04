@@ -132,6 +132,13 @@ wsServer.on('connection', (ws) => {
                 client.close();
             }
             treatClientAsClosed();
+        } else if (obj.type === 'sleep') {
+            informFrontEndOfLog('Sending sleep');
+            if (client != null && client.readyState === client.OPEN) {
+                client.send(data);
+                client.close();
+            }
+            treatClientAsClosed();
         }
     });
 });

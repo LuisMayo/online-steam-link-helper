@@ -1,6 +1,6 @@
 <body>
 <h1>Welcome to the Steam Link helper app</h1>
-<p>Currently the status of the pc is <span id="pcstatus">unknown</span>. Wrong? <button onclick="forceDC()">Force disconnection</button></p>
+<p>Currently the status of the pc is <span id="pcstatus">unknown</span><button onclick="forceDC()">Force disconnection</button><button onclick="goToSleep()">Go to sleep</button></p>
 <p>Who's going to play?</p>
 <div>$buttons</div>
 <label for="guard">Steam guard code: </label>
@@ -39,6 +39,10 @@ function steamGuardClick() {
 
 function forceDC() {
     const msg = {type: 'dc'};
+    socket.send(JSON.stringify(msg));
+
+}function goToSleep() {
+    const msg = {type: 'sleep'};
     socket.send(JSON.stringify(msg));
 }
 </script>
