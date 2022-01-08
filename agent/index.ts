@@ -2,6 +2,7 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { exec } from 'child_process';
 import { Key, keyboard, mouse, Point, screen } from "@nut-tree/nut-js";
 import { imageResource } from '@nut-tree/nut-js';
+//@ts-ignore
 import sleepMode from 'sleep-mode';
 require("@nut-tree/template-matcher");
 
@@ -94,16 +95,15 @@ server.on('connection', (ws) => {
             await keyboard.type(obj.payload);
             await keyboard.type(Key.Enter);
             ws.send(getSendableLog('Steam guard code typed (may not be successfull)'));
-        }  else if (obj.type === 'guard') {
-            await keyboard.type(obj.payload);
-            await keyboard.type(Key.Enter);
-            ws.send(getSendableLog('Steam guard code typed (may not be successfull)'));
+        }  else if (obj.type === 'sleep') {
+            ws.send(getSendableLog('Going to sleep 💤'));
+            sleepMode((err, stderr, stdout) => {});
         }
     });
 });
 async function blindGuard(obj: any, ws: WebSocket) {
     if (obj.account.steamGuard) {
-        ws.send(getSendableLog('We can\'t find the steam guard prompt, but this account should have it\n Attempting blind click'));
+        ws.send(getSendableLog('We can\'t find the steam guard prompt, but this account should have it. Attempting blind click'));
         await mouse.setPosition(new Point((await screen.width()) / 2 + 20, (await screen.height()) / 2 + 20));
         await mouse.leftClick();
     }
