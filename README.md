@@ -1,10 +1,22 @@
 # Steam Link Helper
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S33O18T)
- Set of tools designed to aid in the process of playing steam link through the internet.
+
+Set of tools designed to aid in the process of playing steam link through the internet.
  
  This consists in 2 pieces of software.
  1. Messenger: Runs in a device inside the network that stays up at all times. It wakes up the steam play host and communicates with the steam agent. It serves a webpage that the end user can use to communicate with the system.
  2. Agent: Runs on the steam link host. Switches the logged Steam account.
+ 
+ ![image](https://user-images.githubusercontent.com/20229636/148696566-3dcedc4e-9baf-46a2-a4d0-c1b4a79e8294.png)
+
+ 
+## Features
+- Wakes PC on LAN in case it's suspended.
+- Changes the logged Steam User to allow account switching
+- Inputs the Steam guard code if requested
+
+## Screenshot
+![image](https://user-images.githubusercontent.com/20229636/148696351-777cac71-fc74-4eef-a9dc-b5a358f7ed5d.png)
 
 ## Getting Started
 
